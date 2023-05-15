@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
-const UserSchema =require('../Models/User')
+const UserSchema =require('../models/user')
+const AdminSchema = require('../models/admin');
 const jwt = require("jsonwebtoken");
 const Router = require("../routes/users");
 const { userdecode, checkAdmin } = require('../Tokens/tokens');
+
 
 
 exports.getUser = async(req,res,next)=>{
@@ -45,5 +47,24 @@ exports.getUser = async(req,res,next)=>{
     }
   };
 
- 
+
+
+
+
+exports.Adminsignup = async (req , res)=>{
+    const {username , password , name, role} = req.body;
+  try {
+    const Admin = new AdminSchema.create({
+        username,
+        password,
+        name,
+        role
+    });
+    res.status(200).json(Admin);
+  }catch (error) {
+    res.status(400).json({ mssg: error.message });
+  }
+}
+
+
 

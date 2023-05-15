@@ -11,11 +11,11 @@ const router = require("./routes/users");
 const { default: mongoose } = require("mongoose");
 
 const app = express()
-const port = 3001
+const port = 3000
 
 const cors = require('cors');
 app.use(cors());
-
+require("dotenv").config();
 app.use(express.urlencoded({extended:false}));
 
 
