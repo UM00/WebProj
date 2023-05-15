@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 const UserSchema =require('../Models/User')
+const jwt = require("jsonwebtoken");
+const Router = require("../routes/users");
+const { userdecode, checkAdmin } = require('../Tokens/tokens');
 
 
 exports.getUser = async(req,res,next)=>{
@@ -41,3 +44,6 @@ exports.getUser = async(req,res,next)=>{
       res.status(404).json({ error: 'No Such User Exist' });
     }
   };
+
+ 
+

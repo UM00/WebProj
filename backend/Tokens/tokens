@@ -1,8 +1,10 @@
+const jwt = require("jsonwebtoken");
+
 let userdecode=(req,res,next)=>{
     let token=req.header['token'];
     jwt.verify(token,process.env.SECRETKEY,(err,decoded)=>{
         if(!err){
-            req.decode=decode
+            req.decode=decoded
             next()
         }
         else{
@@ -14,7 +16,7 @@ let userdecode=(req,res,next)=>{
 let checkAdmin=(req,res,next)=>{
     let token=req.header[token];
     jwt.verify(token,process.env,SECRETKEY,(err,decode)=>{
-        if(role=admin){
+        if(role=Admin){
             if(!err){
                 req.decode=decode
                 next()
@@ -30,6 +32,23 @@ let checkAdmin=(req,res,next)=>{
     res.status(200).json({"Message":"Token failed", err:err})
     })
 }
+
+// let Admin = async (req,res) => {
+//     try {
+//         if (req.user.role === 'admin') {
+//           const users = await Admin.find({});
+    
+//           res.send(users);
+//         } else {
+//           res.status(401).send({ error: 'Unauthorized access' });
+//         }
+//       } catch (err) {
+//         res.status(500).send(err);
+//       }
+//   }
+//   module.exports={
+//     Admin
+// }
 
 module.exports={
     checkAdmin,
