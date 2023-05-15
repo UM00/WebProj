@@ -1,0 +1,37 @@
+let userdecode=(req,res,next)=>{
+    let token=req.header['token'];
+    jwt.verify(token,process.env.SECRETKEY,(err,decoded)=>{
+        if(!err){
+            req.decode=decode
+            next()
+        }
+        else{
+            res.status(200).json({"Message":"ERROR"})
+        }
+    })
+}
+
+let checkAdmin=(req,res,next)=>{
+    let token=req.header[token];
+    jwt.verify(token,process.env,SECRETKEY,(err,decode)=>{
+        if(role=admin){
+            if(!err){
+                req.decode=decode
+                next()
+            }
+            else{
+                res.status(200).json({"Message":"ERROR",err:err})
+            }
+        }
+        else{
+            res.status(200).json({"Message":"You are Not an Admin"})
+        }
+    }).catch(err=>{
+    res.status(200).json({"Message":"Token failed", err:err})
+    })
+}
+
+module.exports={
+    checkAdmin,
+    userdecode
+}
