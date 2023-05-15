@@ -8,4 +8,4 @@ const { userdecode, checkAdmin } = require('../Tokens/tokens');
 Router.get('/getUser',userdecode,checkAdmin,AdminUserController.getUser)
 Router.post('/createUser',AdminUserController.createUser)
 Router.delete('/delete/:id',AdminUserController.deleteUserDetail)
-module.exports =Router;
+module.exports=Router;

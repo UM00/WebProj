@@ -37,7 +37,7 @@ app.post('/', (req, res) => {
 })
 
 mongoose.connect(
-    "mongodb+srv://umoo:umoo@database.hfh6yj6.mongodb.net/test"
+    "mongodb+srv://umoo:umoo@database.hfh6yj6.mongodb.net/ADDMIN"
   )
   .then(() => {
     app.listen(port,()=>{
