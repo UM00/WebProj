@@ -11,7 +11,7 @@ const router = require("./routes/users");
 const { default: mongoose } = require("mongoose");
 
 const app = express()
-const port = 3000
+const port = 3001
 
 const cors = require('cors');
 app.use(cors());

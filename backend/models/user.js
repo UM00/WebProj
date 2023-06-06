@@ -2,27 +2,27 @@ const mongoose =require('mongoose');
 const Schema =mongoose.Schema;
 
 const UserSchema =new Schema({
-    Name:{
+    name:{
         type: String,
         required: true,
 
     },
-    Age:{
+    age:{
         type: Number,
         required: true,
 
     },
-    Email:{
+    email:{
         type: String,
         required: true,
 
     },
-    Address:{
+    address:{
         type: String,
         required: true,
 
     },
-    PhoneNo:{
+    phoneNo:{
         type: Number,
         required: true,
 

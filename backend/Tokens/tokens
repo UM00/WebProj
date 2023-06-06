@@ -1,57 +1,104 @@
-const jwt = require("jsonwebtoken");
-// const { Admin } = require("../Controller/AdminUserController");
-const Admin = require("../models/admin");
-let userdecode=(req,res,next)=>{
-    let token=req.header['token'];
-    jwt.verify(token,process.env.SECRETKEY,(err,decoded)=>{
-        if(!err){
-            req.decode=decoded
-            next()
-        }
-        else{
-            res.status(200).json({"Message":"ERROR"})
-        }
-    })
-}
-
-let checkAdmin=(req,res,next)=>{
-    let token=req.header[token];
-    jwt.verify(token,process.env,SECRETKEY,(err,decode)=>{
-        if(role=Admin){
-            if(!err){
-                req.decode=decode
-                next()
-            }
-            else{
-                res.status(200).json({"Message":"ERROR",err:err})
-            }
-        }
-        else{
-            res.status(200).json({"Message":"You are Not an Admin"})
-        }
-    }).catch(err=>{
-    res.status(200).json({"Message":"Token failed", err:err})
-    })
-}
-
-// let Admin = async (req,res) => {
-//     try {
-//         if (req.user.role === 'admin') {
-//           const users = await Admin.find({});
-    
-//           res.send(users);
-//         } else {
-//           res.status(401).send({ error: 'Unauthorized access' });
+// const jwt = require("jsonwebtoken");
+// // const { Admin } = require("../Controller/AdminUserController");
+// const Admin = require("../models/admin");
+// let userdecode=(req,res,next)=>{
+//     let token=req.header['token'];
+//     jwt.verify(token,process.env.SECRETKEY,(err,decoded)=>{
+//         if(!err){
+//             req.decode=decoded
+//             next()
 //         }
-//       } catch (err) {
-//         res.status(500).send(err);
-//       }
-//   }
-//   module.exports={
-//     Admin
+//         else{
+//             res.status(200).json({"Message":"ERROR"})
+//         }
+//     })
 // }
 
-module.exports={
-    checkAdmin,
-    userdecode
-}
+// let checkAdmin=(req,res,next)=>{
+//     let token=req.header[token];
+//     jwt.verify(token,process.env,SECRETKEY,(err,decode)=>{
+//         if(role=Admin){
+//             if(!err){
+//                 req.decode=decode
+//                 next()
+//             }
+//             else{
+//                 res.status(200).json({"Message":"ERROR",err:err})
+//             }
+//         }
+//         else{
+//             res.status(200).json({"Message":"You are Not an Admin"})
+//         }
+//     }).catch(err=>{
+//     res.status(200).json({"Message":"Token failed", err:err})
+//     })
+// }
+
+// // let Admin = async (req,res) => {
+// //     try {
+// //         if (req.user.role === 'admin') {
+// //           const users = await Admin.find({});
+    
+// //           res.send(users);
+// //         } else {
+// //           res.status(401).send({ error: 'Unauthorized access' });
+// //         }
+// //       } catch (err) {
+// //         res.status(500).send(err);
+// //       }
+// //   }
+// //   module.exports={
+// //     Admin
+// // }
+
+// module.exports={
+//     checkAdmin,
+//     userdecode
+// }
+
+//---------------------------------------------------------------
+const jwt = require("jsonwebtoken");
+const Admin = require("../models/admin");
+
+let userdecode = (req, res, next) => {
+  let token = req.header("token");
+  jwt.verify(token, process.env.SECRETKEY, (err, decoded) => {
+    if (!err) {
+      req.decode = decoded;
+      next();
+    } else {
+      res.status(200).json({ "Message": "ERROR" });
+    }
+  });
+};
+
+let checkAdmin = (req, res, next) => {
+  let token = req.header("token");
+  jwt.verify(token, process.env.SECRETKEY, (err, decode) => {
+    if (err) {
+      res.status(200).json({ "Message": "Token failed", err: err });
+    } else {
+      if (decode.role === "Admin") {
+        req.decode = decode;
+        next();
+      } else {
+        res.status(200).json({ "Message": "You are Not an Admin" });
+      }
+    }
+  });
+};
+
+
+const compare = async (password, hashedPassword) => {
+  try {
+    return await bcrypt.compare(password, hashedPassword);
+  } catch (error) {
+    throw new Error('Password comparison failed');
+  }
+};
+
+module.exports = {
+  checkAdmin,
+  userdecode,
+  compare
+};
