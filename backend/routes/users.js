@@ -13,8 +13,9 @@ Router.post('/createUser',AdminUserController.createUser)
 Router.delete('/delete/:id',AdminUserController.deleteUserDetail)
 // Router.post("/Adminsignup" , AdminUserController.Adminsignup)
 Router.post("/admin/signup", AdminUserController.Adminsignup);
-Router.post("/AdminLogin",AdminUserController.AdminLogin)
+//Router.post("/AdminLogin",AdminUserController.AdminLogin)
+Router.post("/AdminLogin", userdecode, checkAdmin, AdminUserController.AdminLogin);
 Router.get("/getAdmin",AdminUserController.getAdmin)
-Router.put("/update/:id",AdminUserController.updateUserDetail)
+Router.put('/updateUser/:id', AdminUserController.updateUserDetail);
 
 module.exports=Router;

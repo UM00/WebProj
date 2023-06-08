@@ -112,24 +112,26 @@ exports.Adminsignup = async (req, res) => {
 
 
 exports.AdminLogin = async (req, res) => {
-  const { username, password} = req.body;
+  const { username, password } = req.body;
   try {
     let admin = await AdminSchema.findOne({ username });
     if (admin) {
-      
-    const isMatch = await bcrypt.compare(password, admin.password);
+      const isMatch = await bcrypt.compare(password, admin.password);
       if (isMatch) {
-        
-        let token = jwt.sign(
-          {
-            id: admin._id,
-            role: admin.role,
-          },
-          process.env.SecretKey,
-          { expiresIn: '24h' }
-        );
-        console.log(token);
-        res.status(200).json({ message: 'Login Success', admin, token });
+        if (admin.role === 'admin') {
+          let token = jwt.sign(
+            {
+              id: admin._id,
+              role: admin.role,
+            },
+            process.env.SecretKey,
+            { expiresIn: '24h' }
+          );
+          console.log(token);
+          res.status(200).json({ message: 'Login Success', admin, token });
+        } else {
+          res.status(403).json({ message: 'Access Denied: You are not an admin' });
+        }
       } else {
         res.status(400).json({ message: 'Login Failed' });
       }
@@ -138,5 +140,28 @@ exports.AdminLogin = async (req, res) => {
     }
   } catch (error) {
     res.status(400).json({ message: 'Error', error: error.message });
+  }
+};
+
+
+
+exports.updateUserDetail = async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: 'Invalid ID Format' });
+  }
+  try {
+    const userDetail = await UserSchema.findByIdAndUpdate(
+      id,
+      req.body,
+      { new: true }
+    );
+    if (userDetail) {
+      res.status(200).json(userDetail);
+    } else {
+      res.status(404).json({ error: 'No Such User Exists' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };

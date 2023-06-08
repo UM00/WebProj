@@ -32,7 +32,6 @@ const AdminLogin = () => {
     } catch (error) {
       console.error(error);
     }
-
   };
 
   return (
