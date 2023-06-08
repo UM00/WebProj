@@ -9,13 +9,13 @@ const { Adminsignup } = require('../Controller/AdminUserController');
 // })
 
 Router.get('/getUser',AdminUserController.getUser)
-Router.post('/createUser',AdminUserController.createUser)
-Router.delete('/delete/:id',AdminUserController.deleteUserDetail)
+Router.post('/createUser',userdecode,checkAdmin,AdminUserController.createUser)
+Router.delete('/delete/:id',userdecode,checkAdmin,AdminUserController.deleteUserDetail)
 // Router.post("/Adminsignup" , AdminUserController.Adminsignup)
 Router.post("/admin/signup", AdminUserController.Adminsignup);
 //Router.post("/AdminLogin",AdminUserController.AdminLogin)
-Router.post("/AdminLogin", userdecode, checkAdmin, AdminUserController.AdminLogin);
+Router.post("/AdminLogin", AdminUserController.AdminLogin);
 Router.get("/getAdmin",AdminUserController.getAdmin)
-Router.put('/updateUser/:id', AdminUserController.updateUserDetail);
+Router.put('/updateUser/:id',userdecode,checkAdmin,AdminUserController.updateUserDetail);
 
 module.exports=Router;

@@ -21,7 +21,8 @@ const AdminLogin = () => {
         }),
       });
       const data = await response.json();
-      console.log(data);
+      console.log(data.token);
+      localStorage.setItem('token', data.token);
       if (response.status === 200) {
         alert('Admin logged in successfully');
         window.location.href = '/addUser';

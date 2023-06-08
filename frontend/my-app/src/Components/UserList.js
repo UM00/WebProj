@@ -30,11 +30,15 @@ const UserList = () => {
     try {
       const response = await fetch(`http://localhost:3001/delete/${userId}`, {
         method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          token: localStorage.getItem('token'),
+        },
       });
       const data = await response.json();
       if (response.status === 200) {
-        // User deleted successfully, fetch updated user list
         fetchUsers();
+        console.log(data.token);
       } else {
         console.error(data.error);
       }
@@ -45,17 +49,20 @@ const UserList = () => {
 
   const updateUser = async () => {
     try {
+      const token=localStorage.getItem('token');
       const response = await fetch(`http://localhost:3001/updateUser/${selectedUserId._id}`, {
-        method: 'PUT',
+       method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          token: token,
         },
         body: JSON.stringify(updatedUser),
       });
       const data = await response.json();
       if (response.status === 200) {
-        console.log(data);
+        alert('Edited successfully');
         fetchUsers();
+        console.log(data.token);
         setUpdatedUser(null);
       } else {
         console.error(data.error);
@@ -76,7 +83,7 @@ const UserList = () => {
   const showProfileCard = (user) => {
     setSelectedUserId(user);
   };
-
+  
   return (
     <div
       className="container"
@@ -124,9 +131,9 @@ const UserList = () => {
         <button>Back</button>
       </a>
 
-      {/* Profile Card */}
+      
       {selectedUserId && (
-  <section className="vh-100" style={{ backgroundColor: 'white' }}>
+  <section className="vh-100" style={{ backgroundColor: 'white' ,opacity:0.94}}>
     <div className="container py-5 h-100">
       <div className="row d-flex justify-content-center align-items-center h-100">
         <div className="col col-md-9 col-lg-7 col-xl-5">
@@ -147,6 +154,7 @@ const UserList = () => {
                     <input
                       type="text"
                       className="form-control"
+                      placeholder="Edit username"
                       value={updatedUser ? updatedUser.name : ''}
                       onChange={(e) => handleInputChange('name', e.target.value)}
                     />
@@ -162,6 +170,7 @@ const UserList = () => {
                         <input
                           type="text"
                           className="form-control"
+                          placeholder="Edit age"
                           value={updatedUser ? updatedUser.age : ''}
                           onChange={(e) => handleInputChange('age', e.target.value)}
                         />
@@ -174,6 +183,7 @@ const UserList = () => {
                         <input
                           type="text"
                           className="form-control"
+                          placeholder="Edit email"
                           value={updatedUser ? updatedUser.email : ''}
                           onChange={(e) => handleInputChange('email', e.target.value)}
                         />
@@ -186,6 +196,7 @@ const UserList = () => {
                         <input
                           type="text"
                           className="form-control"
+                          placeholder="Edit phone number"
                           value={updatedUser ? updatedUser.phoneNo : ''}
                           onChange={(e) => handleInputChange('phoneNo', e.target.value)}
                         />
@@ -195,7 +206,7 @@ const UserList = () => {
                   <div className="d-flex pt-1">
                   <button
                       type="button"
-                      className="btn btn-primary flex-grow-1"
+                      className="btn btn-success flex-grow-1"
                       onClick={updateUser}
                     >
                       Save

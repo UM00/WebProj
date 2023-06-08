@@ -25,6 +25,7 @@ const AddUser = () => {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
+              token: localStorage.getItem('token'),
             },
             body: JSON.stringify({
               name: name,

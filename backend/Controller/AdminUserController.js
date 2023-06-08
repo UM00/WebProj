@@ -17,6 +17,7 @@ exports.getUser = async (req, res, next) => {
 };
 
 const Admin = require('../models/admin');
+const e = require('express');
 
 exports.getAdmin = async (req, res, next) => {
   try {
@@ -65,6 +66,7 @@ exports.deleteUserDetail = async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
+    
   }
 };
 
@@ -85,7 +87,7 @@ exports.updateUserDetail = async (req, res) => {
       res.status(404).json({ error: 'No Such User Exists' });
     }
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message});
   }
 };
 
@@ -113,6 +115,10 @@ exports.Adminsignup = async (req, res) => {
 
 exports.AdminLogin = async (req, res) => {
   const { username, password } = req.body;
+  if (username ==null || password==null) {
+    return res.status(400).json({ message: 'Username and password are required' });
+  }
+  else{
   try {
     let admin = await AdminSchema.findOne({ username });
     if (admin) {
@@ -124,7 +130,7 @@ exports.AdminLogin = async (req, res) => {
               id: admin._id,
               role: admin.role,
             },
-            process.env.SecretKey,
+            process.env.SECRETKEY,
             { expiresIn: '24h' }
           );
           console.log(token);
@@ -140,8 +146,11 @@ exports.AdminLogin = async (req, res) => {
     }
   } catch (error) {
     res.status(400).json({ message: 'Error', error: error.message });
+    console.log("failed");
   }
+}
 };
+
 
 
 
